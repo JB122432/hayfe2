@@ -1,0 +1,589 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Una carta para ti ♡</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --cream: #f9edda;
+    --paper: #f5e8d1;
+    --pink: #e8c5b7;
+    --rose: #b77e79;
+    --brown: #795c4e;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at 50% 15%, #fffaf3, transparent 65%),
+        linear-gradient(135deg, #f5e2da, #f8eee5, #f0ddd3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+    color: var(--brown);
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 25px 15px;
+    position: relative;
+}
+
+h1 {
+    font-family: 'Allura', cursive;
+    font-size: 58px;
+    font-weight: normal;
+    color: #a56f70;
+    margin-bottom: 4px;
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 15px;
+    letter-spacing: 3px;
+    color: #a68b7e;
+    margin-bottom: 25px;
+}
+
+/* ESCENARIO */
+
+.scene {
+    width: 340px;
+    height: 520px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    perspective: 1100px;
+
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* CARTA */
+
+.letter {
+    width: 300px;
+    height: 380px;
+
+    position: absolute;
+    bottom: -380px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background:
+        radial-gradient(ellipse at 15% 20%,
+            rgba(172,130,91,.09), transparent 40%),
+        radial-gradient(ellipse at 85% 80%,
+            rgba(172,130,91,.10), transparent 45%),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            rgba(145,108,75,.018) 1px,
+            transparent 3px
+        ),
+        #f8eedb;
+
+    border: 1px solid #d9c2a0;
+    border-radius: 3px;
+
+    padding: 27px 23px;
+
+    /* Inicialmente detrás del sobre */
+    z-index: 2;
+
+    transition:
+        bottom 1.4s cubic-bezier(.22,.8,.3,1),
+        box-shadow 1s ease;
+
+    box-shadow: 0 4px 18px rgba(90,55,35,.17);
+
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #c9a994 transparent;
+}
+
+/* BORDES INTERIORES */
+
+.letter::before {
+    content: "";
+    position: absolute;
+    inset: 9px;
+    border: 1px solid rgba(175,132,105,.35);
+    pointer-events: none;
+}
+
+/* MANCHITAS DEL PAPEL */
+
+.letter::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: .17;
+    background:
+        radial-gradient(circle at 8% 12%, #b48c69 0 1px, transparent 3px),
+        radial-gradient(circle at 90% 25%, #b48c69 0 1px, transparent 3px),
+        radial-gradient(circle at 75% 90%, #b48c69 0 1px, transparent 3px);
+}
+
+.letter-content {
+    position: relative;
+    z-index: 2;
+}
+
+.letter h2 {
+    font-family: 'Allura', cursive;
+    font-size: 38px;
+    color: #a16e6c;
+    font-weight: normal;
+    text-align: center;
+    margin-bottom: 17px;
+}
+
+.letter p {
+    font-size: 19px;
+    line-height: 1.6;
+    color: #70564a;
+    white-space: pre-line;
+}
+
+.signature {
+    font-family: 'Allura', cursive;
+    font-size: 29px !important;
+    color: #a16e6c !important;
+    text-align: right;
+    margin-top: 25px;
+}
+
+/* FLORES DE LA CARTA */
+
+.flower-decoration {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+    opacity: .8;
+    font-size: 25px;
+}
+
+.flower-top-left {
+    top: 14px;
+    left: 14px;
+    transform: rotate(-25deg);
+}
+
+.flower-bottom-right {
+    bottom: 13px;
+    right: 13px;
+    transform: rotate(25deg);
+}
+
+/* SOBRE */
+
+.envelope {
+    width: 320px;
+    height: 210px;
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    z-index: 3;
+    cursor: pointer;
+    filter: drop-shadow(0 12px 12px rgba(112,75,65,.18));
+}
+
+.envelope-back {
+    position: absolute;
+    inset: 0;
+    background: #dcb8a9;
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.envelope-front {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(140deg, #efd1c3, #e5c0b1);
+    clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
+    z-index: 4;
+}
+
+/* SOLAPA */
+
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 115px;
+    background: linear-gradient(135deg, #d9b0a2, #cfa397);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top;
+    transition: transform .9s ease;
+    z-index: 6;
+}
+
+/* SELLO */
+
+.seal {
+    position: absolute;
+    width: 49px;
+    height: 49px;
+    border-radius: 50%;
+
+    background: radial-gradient(circle at 35% 30%, #c78683, #985b60);
+
+    border: 2px solid #e6b8a6;
+    color: #f8e6d5;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 23px;
+
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -15%);
+
+    z-index: 7;
+
+    box-shadow:
+        0 3px 7px rgba(90,45,40,.2),
+        inset 0 1px 4px rgba(255,255,255,.3);
+
+    transition: opacity .4s;
+}
+
+.seal::before {
+    content: "♥";
+}
+
+/* FLORES DEL SOBRE */
+
+.envelope-flower {
+    position: absolute;
+    z-index: 5;
+    font-size: 19px;
+    opacity: .8;
+    pointer-events: none;
+}
+
+.envelope-flower.left {
+    left: 13px;
+    bottom: 12px;
+    transform: rotate(-25deg);
+}
+
+.envelope-flower.right {
+    right: 13px;
+    bottom: 12px;
+    transform: rotate(25deg);
+}
+
+/* =================================
+   ANIMACIÓN Y CAPAS CORREGIDAS
+================================= */
+
+/* La carta sale completamente del sobre */
+
+.scene.open .letter {
+    bottom: 110px;
+
+    /* CLAVE: AHORA LA CARTA ESTÁ DELANTE DEL SOBRE */
+    z-index: 5;
+
+    box-shadow: 0 8px 25px rgba(90,55,35,.2);
+}
+
+/* La solapa se abre */
+
+.scene.open .envelope-flap {
+    transform: rotateX(180deg);
+    z-index: 2;
+}
+
+/* El sello desaparece */
+
+.scene.open .seal {
+    animation: breakSeal .65s ease forwards;
+    pointer-events: none;
+}
+
+@keyframes breakSeal {
+    0% {
+        transform: translate(-50%, -15%) scale(1) rotate(0);
+        opacity: 1;
+    }
+
+    35% {
+        transform: translate(-50%, -15%) scale(1.2) rotate(-12deg);
+    }
+
+    65% {
+        transform: translate(-50%, -15%) scale(.8) rotate(15deg);
+        opacity: .8;
+    }
+
+    100% {
+        transform: translate(-50%, -15%) scale(.2) rotate(35deg);
+        opacity: 0;
+    }
+}
+
+/* INDICACIÓN */
+
+.instruction {
+    margin-top: 23px;
+    font-size: 18px;
+    color: #a47e76;
+    letter-spacing: 1px;
+    text-align: center;
+    transition: opacity .4s;
+}
+
+.scene.open ~ .instruction {
+    opacity: 0;
+}
+
+/* BOTÓN */
+
+.close-btn {
+    display: none;
+    margin-top: 22px;
+    padding: 10px 24px;
+    border: 1px solid #c9a39a;
+    border-radius: 30px;
+    background: rgba(255,255,255,.35);
+    color: #986d68;
+    font-family: inherit;
+    font-size: 17px;
+    cursor: pointer;
+    transition: background .3s, transform .3s;
+}
+
+.close-btn:hover {
+    background: #f0d9d0;
+    transform: translateY(-2px);
+}
+
+body.opened .close-btn {
+    display: block;
+}
+
+/* CORAZONES FLOTANTES */
+
+.heart {
+    position: fixed;
+    color: rgba(190,127,133,.45);
+    font-size: 20px;
+    pointer-events: none;
+    animation: float 6s ease-in-out infinite;
+}
+
+.heart:nth-child(1) {
+    top: 15%;
+    left: 12%;
+}
+
+.heart:nth-child(2) {
+    top: 30%;
+    right: 13%;
+    animation-delay: 2s;
+}
+
+.heart:nth-child(3) {
+    bottom: 15%;
+    left: 20%;
+    animation-delay: 3s;
+}
+
+.heart:nth-child(4) {
+    bottom: 22%;
+    right: 18%;
+    animation-delay: 1s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(-8deg);
+    }
+
+    50% {
+        transform: translateY(-17px) rotate(8deg);
+    }
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 420px) {
+
+    h1 {
+        font-size: 45px;
+    }
+
+    .scene {
+        transform: scale(.88);
+        transform-origin: center center;
+        margin: -20px 0;
+    }
+
+    .letter p {
+        font-size: 17px;
+    }
+}
+
+@media(max-height: 650px) {
+
+    .container {
+        justify-content: flex-start;
+        padding-top: 12px;
+    }
+
+    h1 {
+        font-size: 43px;
+    }
+
+    .subtitle {
+        margin-bottom: 8px;
+    }
+
+    .scene {
+        transform: scale(.85);
+        transform-origin: top center;
+        margin-bottom: -55px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="heart">♡</div>
+<div class="heart">♥</div>
+<div class="heart">♡</div>
+<div class="heart">♥</div>
+
+<main class="container">
+
+    <h1>Un pedacito de mis sentimientos...</h1>
+
+    <p class="subtitle">CON TODO MI CARIÑO</p>
+
+    <div class="scene" id="scene">
+
+        <!-- CARTA -->
+
+        <div class="letter">
+
+            <div class="flower-decoration flower-top-left">
+                ❀
+            </div>
+
+            <div class="flower-decoration flower-bottom-right">
+                ❁
+            </div>
+
+            <div class="letter-content">
+
+                <h2>Querida Cami...</h2>
+
+                <!-- ESCRIBE AQUÍ TU CARTA -->
+
+                <p>
+
+“Tirar los dados” es un poema de charles Bukowski, curiosamente en estos momentos me viene mucho a la mente.
+
+Es un poema que trata de la obsesion, de la dedicación, de que tanto quieres algo en realidad, se puede llevar a varios mundos, el mundo profesional, académico o romántico, y desde que inicie contigo lo he tenido en mente, quiero hacer las cosas y quiero hacerlas bien, quiero seguir construyendo todo lo que venimos construyendo juntos, quiero entregarte la luna con un moño si la quieres, quiero bajarte el sol y convertirlo en un simple punto solo para tus deseos.
+
+Eres la persona con la que quiero intentar todo lo que no he intentado, tu rostro inspira, tu voz calma, tu cuerpo maravilla y tu personalidad enamora. Se que estas pasando un momento difícil, más espero que este solo sea un bache dentro de nuestro camino juntos. Con esta carta solo quiero que no tengas miedo, yo quiero darte tranquilidad y seguridad, y creo que hasta el momento lo he hecho bien, me parecería injusto tener que acabar todo lo que hemos construido y más cuando lo único que he hecho ha sido quererte y recibir tu cariño. 
+
+Espero, más que una pareja o un compromiso me veas como un confidente y podamos seguir el camino que llevábamos ¿será diferente? Tal vez, pero para mejor. Tú me dices que me quieres, que te gusto, ¿Por qué parar algo que está funcionando? Perdón si en esta carta demuestro angustia, pero la verdad es que la tengo, no quiero perderte, te has convertido en una pequeña parte de mi vida la cual no me siento listo para dejar ir. Además, tengo preparado un regalo para este finde ¿cómo te lo vas a perder? jajajaja
+
+
+                <p class="signature">
+                    Con cariño, tomate 🍅 ♡
+                </p>
+
+            </div>
+        </div>
+
+        <!-- SOBRE -->
+
+        <div class="envelope" id="envelope">
+
+            <div class="envelope-back"></div>
+
+            <div class="envelope-front">
+
+                <span class="envelope-flower left">❀</span>
+                <span class="envelope-flower right">❀</span>
+
+            </div>
+
+            <div class="envelope-flap"></div>
+
+            <div class="seal"></div>
+
+        </div>
+
+    </div>
+
+    <p class="instruction">
+        ✧ Sabes que para ti siempre habrá más ✧
+    </p>
+
+    <button class="close-btn" id="closeBtn">
+        Volver a cerrar ♡
+    </button>
+
+</main>
+
+<script>
+
+const scene = document.getElementById("scene");
+const envelope = document.getElementById("envelope");
+const closeBtn = document.getElementById("closeBtn");
+
+function openLetter() {
+
+    if (scene.classList.contains("open")) return;
+
+    scene.classList.add("open");
+    document.body.classList.add("opened");
+
+}
+
+function closeLetter() {
+
+    scene.classList.remove("open");
+    document.body.classList.remove("opened");
+
+}
+
+envelope.addEventListener("click", openLetter);
+
+closeBtn.addEventListener("click", closeLetter);
+
+</script>
+
+</body>
+</html>
